@@ -1,51 +1,38 @@
-$('#create').click(function () {
-    
-    
-    var fullname = $('#fullname').val();
-    var id = $('#id').val();
-    var course = $('#course').val();
-    var recipientpublickey = $('#yourpublickey').val();
-    var certificateName = $('#certificate').val();
-    var description = $('#description').val();
-    var time = $('#time').val();
-    var issuerName = $('#issuername').val();
-    var issuedby = $('#issuedby').val();
-    var issuerpublickey = $('#issuerpublickey').val();
-    var data = {
+$('#sign').click(function(){
 
-      recipient: {
-        fullname: fullname,
-        id: id,
-        course: course,
-        publickey: recipientpublickey,
-      },
-      certificate: {
-        certificateName: certificateName,
-        description: description,
-        time: time,
+  // read json
+ var files = document.getElementById('myFile').files;
+  if (files.length <= 0) {
+    alert("File not found");
+    return false;
+  } else {
+      var fileReader = new FileReader();
+      fileReader.readAsText(files.item(0));
+      fileReader.onload = function(event) { 
+      var result = event.target.result;
+      var privateKey = $('#privateKey').val();
+      console.log(result);
+      let val = JSON.parse(result);
+      
+      $.ajax({
+          url: "http://localhost:8888/api/create",
+          type: "post",
+          contentType: 'application/json',
+          dataType: 'json',
+          data: JSON.stringify({
+              data: result,
+              fullName : val.recipient.fullname,
+              idStudent :val.recipient.id,
+              publicKey :val.recipient.publickey,
+              privateKey : privateKey
+          }),
+          success: function (res) {
+              $('#signed').val(res.signature);
+              alert(res.txId);
+          }
+  })
 
-      },
-      issuer: {
-        issuerName: issuerName,
-        issuedBy: issuedby,
-        issuerPublickey: issuerpublickey,
       }
-     
-
-    }
-    $('#create').hide();
-    $('#download').show();
-    var linkJson = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
-    
-   
-      alert(CryptoJS.SHA256(JSON.stringify(data)));
-      console.log(JSON.stringify(data));
-    $('<button class="radius title " id="download" href="data:' +linkJson + '" download="data.json">Download JSON</button>').appendTo('#bt');
-    $('<a id= "djson"href="data:' + linkJson + '" download="data.json" hidden>download JSON</a>').appendTo('#bt');
-    $("#download").click(function () {
-      document.getElementById('djson').click();
-    
-  }) ;
-
+  }
+          });
   
-})

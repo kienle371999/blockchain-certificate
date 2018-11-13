@@ -1,42 +1,19 @@
-html,
-    body,
-    div,
-    span,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    p,
-    blockquote,
-    pre,
-    a,
-    b,
-    u,
-    i,
-    center,
-    dl,
-    dt,
-    dd,
-    ol,
-    ul,
-    li,
-    fieldset,
-    form,
-    label,
-    legend {
+body {
       background: transparent;
       border: 0;
       margin: 0;
       padding: 0;
       vertical-align: baseline;
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      line-height: normal;
+      font-weight: 400;
+      font-size: 75px;
+      word-spacing: 2px;
     }
 
     h2 {
       font-size: 30px;
-      line-height: 38px;
+      line-height: 35px;
       font-weight: normal;
     }
 
@@ -59,12 +36,13 @@ html,
     }
 
     .loginheader {
-      height: 20px;
+      height: 10px;
     }
 
     .loginform {
       margin: 4px auto;
       text-align: center;
+      line-height: 40px;
     }
 
     .loginbox h1 {
@@ -93,7 +71,7 @@ html,
     .loginbox input {
       padding: 12px 10px;
       color: #ccc;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;;
       margin-top: 8px;
       font-size: 15px;
       border: 1px solid #ccc;
@@ -111,7 +89,6 @@ html,
       color: #fff;
       width: 440px;
       line-height: 30px;
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       -moz-box-shadow: 1px 1px 3px #1D3871;
       -webkit-box-shadow: 1px 1px 3px #1D3871;
       box-shadow: 1px 1px 3px #1D3871;
@@ -131,9 +108,9 @@ html,
     }
 
     .title {
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
       color: #8E989E;
-      line-height: 28px;
+      line-height: 20px;
       font-weight: normal;
       text-align: center;
       font-size: 16px;
@@ -196,7 +173,7 @@ html,
       font-weight: bold;
       color: #FFF;
       text-decoration: none;
-      font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     }
 
     /*-------Login-----------*/
@@ -217,7 +194,7 @@ html,
     #login_form .inputtext {
       background-color: #FFFFFF;
       height: 16px;
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
       font-size: 13px;
       margin: 0;
       padding: 5px 8px 5px 8px;
@@ -240,7 +217,7 @@ html,
     #login_form table tr td label {
       color: #fff;
       cursor: pointer;
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
       font-size: 12px;
       font-weight: normal;
       padding-left: 1px;
@@ -280,7 +257,7 @@ Thanks :)*/
     }
 
     .footer-bar .article-wrapper {
-      font-family: arial, sans-serif;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
       font-size: 14px;
       color: #888;
       float: left;
@@ -297,7 +274,7 @@ Thanks :)*/
     .site-link a:visited {
       color: #888;
       font-size: 14px;
-      font-family: arial, sans-serif;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
       float: right;
       margin-right: 10%;
       text-decoration: none;
@@ -305,4 +282,25 @@ Thanks :)*/
 
     .site-link a:hover {
       color: #E62600;
+    }
+
+    .banner {
+      text-align: center;
+      margin-top: 190px;
+    }  
+    .menu ul {
+      list-style-type: none;
+      text-align: right;
+      margin-top: 0px;
+    }
+
+    .menu ul li {
+      display: inline-table;
+    }
+
+    .menu ul li a {
+      padding-right: 70px;
+      font-size: 20px;
+      color: black;
+      text-decoration: none;
     }

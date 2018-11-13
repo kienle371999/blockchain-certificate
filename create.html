@@ -1,69 +1,24 @@
 <!DOCTYPE html>
-
-<html lang="en">
-
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-  <title>Demo create file json</title>
-
-  <link rel="stylesheet" href="./style.css" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/sha256.min.js"></script>
-  <link rel='stylesheet' href='https://cdn.rawgit.com/t4t5/sweetalert/v0.2.0/lib/sweet-alert.css'>
-  <script src='https://cdn.rawgit.com/t4t5/sweetalert/v0.2.0/lib/sweet-alert.min.js'></script>
-  
-
- 
-</head>
-
+<html>
+    <head>
+        <link rel="stylesheet" href="./style.css" />
+                  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.min.js"></script>
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/sha256.min.js"></script>
+    </head>
 <body>
-
-  <div class="loginbox radius">
-    <h2 style="color:#141823; text-align:center;">Welcome to create certificate</h2>
-    <div class="loginboxinner radius">
-      <div class="loginheader">
-        <h4 class="title">Verify by blockchain.</h4>
-      </div>
-      <!--loginheader-->
-      <div class="loginform">
-
+        <div class="loginbox radius">
+ <div class="loginform" id="check">
         <p>
-          <h4>Your information</h4>
-          <input type="text" id="fullname" name="fullname" placeholder="Full Name" value="" class="radius">
-          <input type="text" id="id" name="id" placeholder="ID" value="" class="radius">
-          
-          <input type="text" id="course" name="course" placeholder="Course" value="" class="radius">
-          <input type="text" id="yourpublickey" name="Yourpublickey" placeholder="Your Publickey " class="radius ">
-       </p>
-         
-
-      <p>
-		  <h4 >Your certificate information</h4>
-          <input type="text " id="certificate" name="certificate " placeholder="Certificate " class="radius ">
-		  <input type="text " id="description" name="description " placeholder="Description " class="radius ">
-		  <input type="text " id="time" name="time " placeholder="Year " class="radius ">
+        <h2 style="color:#141823; text-align:center;"><strong>Welcome to create certificate</strong> </h2>
+        <input style = "color:#141823" type="file" id="myFile" class="radius"> 
+        <input style = "color:#141823" type="text" id="privateKey" name="privateKey" placeholder="Private Key" class="radius "> 
+        <input style = "color:#141823" type="text" id="signed" name="signed" placeholder="Signature" class="radius "> 
+        <button class="radius title" id="sign" name="sign">Sign</button>
         </p>
-		<p>
-		   <h4>Your issuer information</h4>
-          <input type="text " id="issuername" name="issuername " placeholder="Issuer Name " class="radius ">
-		  <input type="text " id="issuedby" name="issuedby " placeholder="Issued by " class="radius ">
-		  <input type="text " id="issuerpublickey" name="issuerpublickey " placeholder="Issuer Publickey " class="radius ">
-        </p>
-		 <p>
-          
-        </p>
-        <p id ="bt">
-          <button class="radius title" id="create" name="signup ">Create Json and hash 256</button>
-          
-        </p>
-     
     </div>
-    
-  </div>
- 
-</div>
-<script type="text/javascript" src="./create.js" ></script>
+    </div>
+    <script type="text/javascript" src="./create.js" ></script>
 
-</body></html>
+</body>
+</html>

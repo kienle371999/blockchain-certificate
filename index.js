@@ -7,58 +7,30 @@ const request = require('request');
 const Insight = require('bitcore-explorers').Insight;
 let jsonParser = bodyParser.json();
 let app = express();
-let network = 'testnet'
+let network = 'testnet';
 app.use(express.static('public'));
 
+app.get('/', function (req, res) {
+    res.sendfile('homepage.html');
+})
 app.get('/create.html', function (req, res) {
-    res.sendfile(path.join('create.html'));
+    res.sendfile('create.html');
 
 })
+
 app.get('/verify.html', function (req, res) {
-    res.sendfile(path.join('verify.html'));
-})
-app.get('/createSignature.html', function (req, res) {
-    res.sendfile(path.join('createSignature.html'));
-})
-app.get('/createSignatureIssuer.html', function (req, res) {
-    res.sendfile(path.join('createSignatureIssuer.html'));
+    res.sendfile('verify.html');
 })
 
-app.post('/api/signtureRecipient', jsonParser, function (req, res) {
+app.post('/api/create', jsonParser, function (req, res) {
     console.log(req.body);
-    let privateKey = new bitcore.PrivateKey(req.body.privateKey);
-
-    let hash = req.body.hash;
-
-    console.log(hash);
-    let sign = Message(hash.toString()).sign(privateKey);
-    res.send(JSON.stringify({ signature: sign }));
-})
-app.post('/api/signture', jsonParser, function (req, res) {
-    console.log(req.body);
+    var privateKey = new bitcore.PrivateKey(req.body.privateKey);
+    var sign = Message(req.body.data).sign(privateKey);
     var fullName = req.body.fullName;
-    var hash = req.body.hash;
-    var addressIssuser = req.body.publickeyIssuer;//
-    var addressRecipient = req.body.publickeyRecipient;//
-    var signatureIssuser = req.body.signatureIssuser;
-    console.log(signatureIssuser);
-    var signatureRecipient = req.body.signatureRecipient;
-    var verifiedRecipient = Message(hash).verify(addressRecipient, signatureRecipient);
-
-    var verifiedIssuser = Message(hash).verify(addressIssuser, signatureIssuser);
-    console.log(verifiedIssuser);
-    res.send(JSON.stringify({ signatureIssuser: verifiedIssuser, signatureRecipient: verifiedRecipient, hash: hash }));
-})
-app.post('/api/signtureIssuer', jsonParser, function (req, res) {
-    console.log(req.body);
-    
-    let privateKey = new bitcore.PrivateKey(req.body.privateKey);
-    var sign = Message(req.body.hash).sign(privateKey);
-    var fullName = req.body.fullName;
-    var publicKey = privateKey.toAddress(network);
-    var addrTo = req.body.publicKey;
-    console.log(addrTo);
-    request('https://testnet.blockchain.info/unspent?active=' + publicKey, function (error, response, body) {
+    var issuerName = req.body.issuerName;
+    var address = privateKey.toAddress(network);
+    var addressTo = req.body.publicKey;
+    request('https://testnet.blockchain.info/unspent?active=' + address, function (error, response, body) {
         if (error) {
             console.log(error);
         } else {
@@ -66,46 +38,51 @@ app.post('/api/signtureIssuer', jsonParser, function (req, res) {
     
             let unspent_outputs = JSON.parse(body);
             let utxos = {
-                address: publicKey + "",
+                address: address + "",
                 txid: unspent_outputs.unspent_outputs[0].tx_hash_big_endian,
                 vout: unspent_outputs.unspent_outputs[0].tx_output_n,
                 scriptPubKey: unspent_outputs.unspent_outputs[0].script,
                 satoshis: unspent_outputs.unspent_outputs[0].value
             }
             console.log(JSON.stringify(utxos))
-            let tx = new bitcore.Transaction()
-            tx.from(utxos);
-
-            tx.to(addrTo, 10000)
-            tx.addData(sign);
-            tx.change(publicKey)
-            tx.sign(privateKey);
-         
-            tx.serialize()
-           // let bufStr = Buffer.from(tx.toString(), 'utf8');
-            //console.log(bufStr + "");
+            var transaction = new bitcore.Transaction()
+            transaction.from(utxos);
+            transaction.to(addressTo, 1000);
+            transaction.fee(1000);
+            transaction.addData(sign);
+            transaction.change(address)
+            transaction.sign(privateKey);
+            transaction.serialize()
+        
             var insight = new Insight(network);
-            insight.broadcast(tx, function(err, returnedTxId) {
+            insight.broadcast(transaction, function(err, returnedTxId) {
                 if (err) {
                     console.log(err)
                 res.send(JSON.stringify({return: false}))
                 } else {
-                    res.send(JSON.stringify({return: true,fullName :fullName,publicKey:addrTo, txId : returnedTxId}))
+                    res.send(JSON.stringify({return: true,
+                        signature: sign, 
+                        fullName: fullName, 
+                        publicKey: addressTo, 
+                        issuerName: issuerName,
+                        txId : returnedTxId}))
                 }
               })
                
         }
                 })
+})
 
+app.post('/api/verify', jsonParser, function (req, res) {
+    console.log(req.body);
+    var data = req.body.data;
+    var signature = req.body.signature;
+    var publicKey = req.body.publicKey;
+    var verified = new Message(data).verify(publicKey, signature);
+    res.send(JSON.stringify({verified: verified}));
+})
 
-
-
-            
-
-
-        })
-
-    var server = app.listen(8888, function () {
+var server = app.listen(8888, function () {
         var host = server.address().address
         var port = server.address().port
 
